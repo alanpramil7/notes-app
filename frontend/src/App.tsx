@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useEffect, useState } from "react";
 import "./App.css";
 
@@ -26,8 +27,9 @@ function App() {
   useEffect(() => {
     const fetchMyAPI = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/task");
-        const tasks: Task[] = await response.json();
+        // const response = await fetch("http://localhost:5000/api/task");
+        const response = await axios.get("http://localhost:5000/api/task");
+        const tasks: Task[] = await response.data;
 
         setTasks(tasks);
       } catch (e) {
@@ -58,18 +60,24 @@ function App() {
   const handleTaskCreate = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    const response = await fetch("http://localhost:5000/api/task", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        task,
-        description,
-      }),
+    // const response = await fetch("http://localhost:5000/api/task", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({
+    //     task,
+    //     description,
+    //   }),
+    // });
+
+    const response = await axios.post("http://localhost:5000/api/task", {
+      task,
+      description,
     });
 
-    const newTask = await response.json();
+    const newTask = await response.data;
+    console.log(newTask);
     setTasks([newTask, ...tasks]);
 
     setTask("");
@@ -79,12 +87,15 @@ function App() {
   const handleTaskDelete = async (event: React.MouseEvent, taskId: number) => {
     event.stopPropagation();
 
-    await fetch(`http://localhost:5000/api/task/${taskId}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    // await fetch(`http://localhost:5000/api/task/${taskId}`, {
+    //   method: "DELETE",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    // });
+
+    await axios.delete(`http://localhost:5000/api/task/${taskId}`);
+
     const newTask = tasks.filter((task) => taskId !== task.id);
     setTasks(newTask);
   };
@@ -108,21 +119,29 @@ function App() {
       return;
     }
 
-    const response = await fetch(
+    // const response = await fetch(
+    //   `http://localhost:5000/api/task/${selectedTask?.id}`,
+    //   {
+    //     method: "PUT",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify({
+    //       task,
+    //       description,
+    //     }),
+    //   },
+    // );
+
+    const response = await axios.put(
       `http://localhost:5000/api/task/${selectedTask?.id}`,
       {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          task,
-          description,
-        }),
+        task,
+        description,
       },
     );
 
-    const updatedTask = await response.json();
+    const updatedTask = await response.data;
 
     const newTasks = tasks.map((task) =>
       task.id === selectedTask.id ? updatedTask : task,
