@@ -1,0 +1,88 @@
+body {
+  margin: 20px;
+  background-color: lightgray;
+}
+
+.container {
+  grid-template-columns: 1fr;
+  margin-bottom: 5px;
+}
+
+@media (min-width: 600px) {
+  .container {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 20px;
+  }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 2fr));
+  grid-auto-rows: minmax(250px, auto);
+  gap: 20px;
+}
+
+.task {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  border-radius: 5px;
+  background-color: white;
+  box-shadow: 2px 2px 2px gray;
+}
+
+.header {
+  display: flex;
+  justify-content: end;
+}
+
+.header button {
+  cursor: pointer;
+  background: transparent;
+  font-size: 16px;
+  border: none;
+}
+
+h2 {
+  margin: 0;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+form input {
+  padding: 5px;
+}
+
+form textarea {
+  padding: 5px;
+}
+
+form button {
+  padding: 5px;
+  border-radius: 5px;
+  font-size: 16px;
+  border: none;
+  color: white;
+  background-color: #0fbabd;
+}
+
+form button:hover {
+  cursor: pointer;
+}
+
+.edit-btn {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 5px;
+}
+
+.edit-btn button {
+  flex: 1;
+}
